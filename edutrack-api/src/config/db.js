@@ -18,7 +18,28 @@ const config = {
         // Não valida o certificado do servidor — evita erros de
         // certificado "não confiável" comuns em ambiente local/dev
         trustServerCertificate: true
-    }
+    },
 
-    
+    pool:{
+        max: 10, 
+        min: 0,
+        idleTimeoutMillis: 30000
+    }
+}
+
+const poolPromise = new sql.ConnectionPool(config).connect()
+
+.then(pool =>{
+    console.log("Conexão estabelecida com sucesso!")
+    return pool
+})
+
+.catch(err=>{
+    console.log("Erro para se conectar!")
+    throw err
+})
+
+module.exports={
+    sql,
+    poolPromise
 }

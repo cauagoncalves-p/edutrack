@@ -1,5 +1,3 @@
-// Carrega o arquivo .env e injeta suas variáveis em process.env,
-// tornando DB_SERVER, DB_NAME, DB_USER, DB_PASSWORD etc. acessíveis no código
 require('dotenv').config()
 
 // Importa o driver mssql (instalado via npm), responsável por

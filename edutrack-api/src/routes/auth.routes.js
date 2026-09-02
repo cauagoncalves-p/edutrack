@@ -1,5 +1,3 @@
-// Router do Express: permite agrupar rotas relacionadas
-// em um arquivo separado, em vez de tudo dentro do server.js
 const express = require('express');
 const router = express.Router();
 

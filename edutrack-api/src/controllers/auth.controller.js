@@ -1,9 +1,5 @@
 // bcrypt: usado para transformar a senha em um hash seguro,
-// nunca guardamos senha em texto puro no banco
 const bcrypt = require('bcrypt');
-
-// Importa o sql (para tipos de parâmetro) e o poolPromise (conexão)
-// que criamos no db.js
 const { sql, poolPromise } = require('../config/db');
 
 // Função assíncrona que trata o cadastro de um novo usuário.
@@ -85,15 +81,12 @@ async function signup(req, res) {
         res.status(500).json({ error: 'Erro ao criar usuário.' });
     }
 }
-
-// jsonwebtoken: usado para gerar o token JWT após login bem-sucedido
 const jwt = require('jsonwebtoken');
 
 // Função assíncrona que trata o login
 async function login(req, res) {
-    const { email, password } = req.body;
+    const { email, password } = req.body;7
 
-    // Validação básica de presença
     if (!email || !password) {
         return res.status(400).json({ error: 'Email e senha são obrigatórios.' });
     }
@@ -101,28 +94,18 @@ async function login(req, res) {
     try {
         const pool = await poolPromise;
 
-        // Busca o usuário pelo email — trazemos id, name, email e password_hash
-        // (precisamos do hash para comparar com a senha enviada)
         const result = await pool.request()
             .input('email', sql.VarChar, email)
             .query('SELECT id, name, email, password_hash FROM users WHERE email = @email');
 
         const user = result.recordset[0];
 
-        // Se não encontrou nenhum usuário com esse email...
         if (!user) {
-            // Mensagem genérica de propósito — não dizemos "email não existe"
-            // para não dar pista a quem está tentando adivinhar emails cadastrados
             return res.status(401).json({ error: 'Email ou senha inválidos.' });
         }
-
-        // bcrypt.compare faz o hash da senha recebida e compara com o hash salvo,
-        // sem nunca precisar "descriptografar" o hash (hash não é reversível)
         const passwordMatches = await bcrypt.compare(password, user.password_hash);
 
         if (!passwordMatches) {
-            // Mesma mensagem genérica de antes — não revela se foi o
-            // email ou a senha que estava errada
             return res.status(401).json({ error: 'Email ou senha inválidos.' });
         }
 

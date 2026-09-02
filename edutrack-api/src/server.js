@@ -6,6 +6,9 @@ const cors = require('cors')
 const {sql, poolPromise} = require('./config/db.js')
 const app = express();
 
+const authRoutes = require('./routes/auth.routes.js')
+const subjectsRoutes = require('./routes/subjects.routes');
+
 app.use(cors())
 app.use(express.json())
 
@@ -36,6 +39,9 @@ app.get('/health', async (req, res) => {
     }
 });
 
+app.use('/auth', authRoutes)
+app.use('/subjects', subjectsRoutes);
+
 // Define a porta em que o servidor vai rodar — usa a variável
 // PORT do .env, ou 3000 como valor padrão caso ela não exista
 const PORT = process.env.PORT || 3000;
@@ -44,3 +50,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+

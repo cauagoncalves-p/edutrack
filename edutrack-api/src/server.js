@@ -8,6 +8,7 @@ const app = express();
 
 const authRoutes = require('./routes/auth.routes.js')
 const subjectsRoutes = require('./routes/subjects.routes');
+const tasksRoutes = require('./routes/tasks.routes');
 
 app.use(cors())
 app.use(express.json())
@@ -41,6 +42,7 @@ app.get('/health', async (req, res) => {
 
 app.use('/auth', authRoutes)
 app.use('/subjects', subjectsRoutes);
+app.use('/tasks', tasksRoutes);
 
 // Define a porta em que o servidor vai rodar — usa a variável
 // PORT do .env, ou 3000 como valor padrão caso ela não exista

@@ -132,4 +132,139 @@ async function login(req, res) {
     }
 }
 
-module.exports = { signup, login };
+// crypto: módulo nativo do Node, usado para gerar tokens aleatórios seguros
+const crypto = require('crypto');
+const transporter = require('../config/email');
+
+// FORGOT PASSWORD — gera token e envia email
+async function forgotPassword(req, res) {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email é obrigatório.' });
+    }
+
+    try {
+        const pool = await poolPromise;
+
+        const result = await pool.request()
+            .input('email', sql.VarChar, email)
+            .query('SELECT id, name FROM users WHERE email = @email');
+
+        const user = result.recordset[0];
+
+        if (!user) {
+            return res.json({ message: 'Se o email existir, um link de recuperação foi enviado.' });
+        }
+
+        // Gera um token aleatório de 32 bytes, convertido para string hexadecimal
+        // (64 caracteres) — impossível de adivinhar por força bruta em tempo útil
+        const resetToken = crypto.randomBytes(32).toString('hex');
+
+        // Define expiração de 1 hora a partir de agora
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+        // Salva o token e a expiração no usuário
+        await pool.request()
+            .input('userId', sql.Int, user.id)
+            .input('resetToken', sql.VarChar, resetToken)
+            .input('expiresAt', sql.DateTime, expiresAt)
+            .query(`
+                UPDATE users
+                SET reset_token = @resetToken, reset_token_expires = @expiresAt
+                WHERE id = @userId
+            `);
+
+        // Monta o link que o usuário vai clicar no email
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+        // Envia o email de fato
+        await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Recuperação de senha - EduTrack AI',
+        html: `
+            <div style="font-family: 'Nunito', Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 24px;">
+                <h1 style="color: #58CC02; font-size: 24px; margin: 0 0 4px;">EduTrack</h1>
+                <p style="color: #3C3C3C; font-size: 16px; margin: 24px 0 8px;">Olá, ${user.name}!</p>
+                <p style="color: #777; font-size: 14px; line-height: 1.5; margin: 0 0 24px;">
+                    Recebemos uma solicitação para redefinir sua senha. Clique no botão abaixo
+                    para criar uma nova senha (o link é válido por 1 hora).
+                </p>
+
+                <a href="${resetLink}"
+                style="display: inline-block; background: #58CC02; color: #fff; text-decoration: none;
+                        font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 14px;
+                        border-bottom: 4px solid #46A302;">
+                    Redefinir minha senha
+                </a>
+
+                <p style="color: #AFAFAF; font-size: 12px; line-height: 1.5; margin: 32px 0 0;">
+                    Se você não solicitou isso, pode ignorar este email com segurança.
+                </p>
+                <p style="color: #AFAFAF; font-size: 11px; margin: 16px 0 0; word-break: break-all;">
+                    Ou copie e cole este link no navegador: ${resetLink}
+                </p>
+            </div>
+        `
+    });
+        res.json({ message: 'Se o email existir, um link de recuperação foi enviado.' });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro ao processar solicitação.' });
+    }
+}
+
+// RESET PASSWORD — valida token e define nova senha
+async function resetPassword(req, res) {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+        return res.status(400).json({ error: 'Token e nova senha são obrigatórios.' });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: 'Senha precisa ter pelo menos 6 caracteres.' });
+    }
+
+    try {
+        const pool = await poolPromise;
+
+        // Busca o usuário pelo token, checando também se não expirou
+        // (GETDATE() é a hora atual do banco, comparada com o campo salvo)
+        const result = await pool.request()
+            .input('token', sql.VarChar, token)
+            .query(`
+                SELECT id FROM users
+                WHERE reset_token = @token AND reset_token_expires > GETDATE()
+            `);
+
+        const user = result.recordset[0];
+
+        if (!user) {
+            return res.status(400).json({ error: 'Token inválido ou expirado.' });
+        }
+
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+
+        // Atualiza a senha E limpa o token (impede reuso do mesmo token depois)
+        await pool.request()
+            .input('userId', sql.Int, user.id)
+            .input('passwordHash', sql.VarChar, passwordHash)
+            .query(`
+                UPDATE users
+                SET password_hash = @passwordHash, reset_token = NULL, reset_token_expires = NULL
+                WHERE id = @userId
+            `);
+
+        res.json({ message: 'Senha redefinida com sucesso.' });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro ao redefinir senha.' });
+    }
+}
+
+// Atualiza a exportação
+module.exports = { signup, login, forgotPassword, resetPassword };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
-
+import Logo from './Logo';
 export default function Sidebar() {
     // Controla se o menu está aberto no mobile (fechado por padrão)
     const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,9 @@ export default function Sidebar() {
             {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
 
             <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
-                <div className="sidebar-logo">EduTrack</div>
+                <div className="sidebar-logo">
+                    <Logo size={28} />
+                </div>
 
                 <nav className="sidebar-nav">
                     <NavLink

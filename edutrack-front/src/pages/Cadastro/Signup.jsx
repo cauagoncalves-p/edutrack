@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import SignupIllustration from '../components/SignupIllustration';
-import './Auth.css';
+import api from '../../api/axios';
+import SignupIllustration from '../../components/SignupIllustration';
+import '../Auth/Auth.css';
+import Logo from '../../components/Logo'
 
 export default function Signup() {
     const [name, setName] = useState('');
@@ -36,6 +37,7 @@ export default function Signup() {
                 </div>
                 <div className="auth-form-side">
                     <div className="auth-card">
+                        <Logo size={36} />
                         <h1 className="auth-title">Criar conta</h1>
                         <p className="auth-subtitle">Comece sua jornada acadêmica</p>
 

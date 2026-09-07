@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axios';
-import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
+import api from '../../api/axios';
+import Sidebar from '../../components/Sidebar';
+import Modal from '../../components/Modal';
 import './Subjects.css';
 import { useNavigate } from 'react-router-dom'; // nova importação no topo
 const emptyForm = { name: '', teacher: '', workload_hours: '', description: '', start_date: '', end_date: '' };

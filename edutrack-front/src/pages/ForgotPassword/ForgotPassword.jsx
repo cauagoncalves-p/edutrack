@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../api/axios';
-import AuthIllustration from '../components/AuthIllustration';
-import './Auth.css';
-
+import api from '../../api/axios';
+import AuthIllustration from '../../components/AuthIllustration';
+import '../Auth/Auth.css';
+import Logo from '../../components/Logo'
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -36,6 +36,7 @@ export default function ForgotPassword() {
                 </div>
                 <div className="auth-form-side">
                     <div className="auth-card">
+                        <Logo size={38}/>
                         <h1 className="auth-title">Esqueci minha senha</h1>
                         <p className="auth-subtitle">Enviaremos um link de recuperação para seu email</p>
 

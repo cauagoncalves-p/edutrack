@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api/axios';
-import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
-import './Subjects.css';
+import api from '../../api/axios';
+import Sidebar from '../../components/Sidebar';
+import Modal from '../../components/Modal';
+import '../Subjects/Subjects.css'
 import './Tasks.css';
 
 const emptyForm = { title: '', description: '', due_date: '', status: 'pending' };

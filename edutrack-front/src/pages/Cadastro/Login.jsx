@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
-import AuthIllustration from '../components/AuthIllustration';
-import './Auth.css';
-
+import api from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
+import AuthIllustration from '../../components/AuthIllustration';
+import '../Auth/Auth.css';
+import Logo from '../../components/Logo'
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -38,7 +38,7 @@ export default function Login() {
                 </div>
                 <div className="auth-form-side">
                     <div className="auth-card">
-                        <h1 className="auth-title">EduTrack</h1>
+                        <Logo size={36} />
                         <p className="auth-subtitle">Entre para continuar sua sequência 🔥</p>
 
                         <form onSubmit={handleSubmit} className="auth-form">

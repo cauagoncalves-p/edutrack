@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axios';
-import Sidebar from '../components/Sidebar';
-import './Dashboard.css';
+import api from '../../api/axios';
+import Sidebar from '../../components/Sidebar';
+import '../Dashboard/Dashboard.css';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);

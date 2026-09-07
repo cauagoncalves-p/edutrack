@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import api from '../api/axios';
-import AuthIllustration from '../components/AuthIllustration';
-import './Auth.css';
+import api from '../../api/axios';
+import AuthIllustration from '../../components/AuthIllustration';
+import '../Auth/Auth.css';
+import Logo from '../../components/Logo'
 
 export default function ResetPassword() {
     // useSearchParams lê a query string da URL — é assim que pegamos
@@ -47,7 +48,7 @@ export default function ResetPassword() {
                     <div className="auth-illustration-side">
                         <AuthIllustration />
                     </div>
-                    <div className="auth-form-side">
+                    <div className="auth-form-side">7
                         <div className="auth-card">
                             <h1 className="auth-title">Link inválido</h1>
                             <p className="auth-subtitle">Este link de redefinição está incompleto ou expirado.</p>
@@ -67,6 +68,7 @@ export default function ResetPassword() {
                 </div>
                 <div className="auth-form-side">
                     <div className="auth-card">
+                        <Logo size={38}/>
                         <h1 className="auth-title">Nova senha</h1>
                         <p className="auth-subtitle">Escolha uma nova senha para sua conta</p>
 

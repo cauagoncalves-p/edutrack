@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
-import Subjects from './pages/Subjects';
-import Tasks from './pages/Tasks'; //
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
+import Login from './pages/Cadastro/Login';
+import Signup from './pages/Cadastro/Signup';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Subjects from './pages/Subjects/Subjects';
+import Tasks from './pages/Tasks/Tasks';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ForgotPassword/ResetPassword';
 
 export default function App() {
     return (

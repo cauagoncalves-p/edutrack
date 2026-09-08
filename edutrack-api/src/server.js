@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth.routes.js')
 const subjectsRoutes = require('./routes/subjects.routes');
 const tasksRoutes = require('./routes/tasks.routes');
 const dashboardRoutes = require('./routes/dashboard.routes.js')
+const usersRoutes = require('./routes/users.routes');
 
 app.use(cors())
 app.use(express.json())
@@ -45,6 +46,7 @@ app.use('/auth', authRoutes)
 app.use('/subjects', subjectsRoutes);
 app.use('/tasks', tasksRoutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/users', usersRoutes);
 
 // Define a porta em que o servidor vai rodar — usa a variável
 // PORT do .env, ou 3000 como valor padrão caso ela não exista

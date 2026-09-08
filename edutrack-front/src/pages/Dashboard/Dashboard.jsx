@@ -42,10 +42,6 @@ export default function Dashboard() {
             <main className="dashboard-content">
                 <div className="dashboard-header">
                     <h1 className="dashboard-greeting">Suas disciplinas</h1>
-                    <div className="dashboard-badges">
-                        <span className="badge badge-streak">🔥 7</span>
-                        <span className="badge badge-xp">1240 XP</span>
-                    </div>
                 </div>
 
                 {loading && <p>Carregando...</p>}

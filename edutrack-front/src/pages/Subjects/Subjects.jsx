@@ -148,14 +148,20 @@ export default function Subjects() {
                             value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
                         />
                         <div className="subject-date-row">
-                            <input
-                                type="date" className="auth-input"
-                                value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })}
-                            />
-                            <input
-                                type="date" className="auth-input"
-                                value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })}
-                            />
+                            <div className="field-group">
+                                <label className="field-label">Data de início</label>
+                                <input
+                                    type="date" className="auth-input"
+                                    value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })}
+                                />
+                            </div>
+                            <div className="field-group">
+                                <label className="field-label">Data de término</label>
+                                <input
+                                    type="date" className="auth-input"
+                                    value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })}
+                                />
+                            </div>
                         </div>
 
                         {formError && <p className="dashboard-error">{formError}</p>}

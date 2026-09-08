@@ -38,6 +38,20 @@ export default function Sidebar() {
                     >
                         📚 Disciplinas
                     </NavLink>
+                    <NavLink
+                        to="/tasks"
+                        className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        📝 Tarefas
+                    </NavLink>
+                    <NavLink
+                        to="/profile"
+                        className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        👤 Perfil
+                    </NavLink>
                 </nav>
 
                 <button className="sidebar-logout" onClick={logout}>

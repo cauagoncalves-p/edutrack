@@ -8,7 +8,8 @@ import Subjects from './pages/Subjects/Subjects';
 import Tasks from './pages/Tasks/Tasks';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/ForgotPassword/ResetPassword';
-
+import TasksIndex from './pages/TasksIndex';
+import Profile from './pages/Profile';
 export default function App() {
     return (
         <AuthProvider>
@@ -43,7 +44,25 @@ export default function App() {
                     <Route path="/" element={<Navigate to="/dashboard" />} />
 
                     <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />    
+                    <Route path="/reset-password" element={<ResetPassword />} />  
+
+                    <Route
+                        path="/tasks"
+                        element={
+                            <ProtectedRoute>
+                                <TasksIndex />
+                            </ProtectedRoute>
+                        }
+                    />  
+
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

@@ -170,10 +170,13 @@ export default function Tasks() {
                             placeholder="Descrição (opcional)" className="auth-input subject-textarea"
                             value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
                         />
-                        <input
-                            type="date" className="auth-input"
-                            value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })}
-                        />
+                        <div className="field-group">
+                            <label className="field-label">Data prevista</label>
+                            <input
+                                type="date" className="auth-input"
+                                value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })}
+                            />
+                        </div>
                         <select
                             className="auth-input"
                             value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}

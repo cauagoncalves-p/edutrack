@@ -27,6 +27,7 @@
     flex-direction: column;
     gap: 6px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .sidebar-logo {
@@ -40,7 +41,6 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    flex: 1;
 }
 
 .sidebar-link {
@@ -69,6 +69,7 @@
     font-size: 14px;
     color: #EA2B2B;
     cursor: pointer;
+    margin-top: auto;
 }
 
 /* Mobile: sidebar vira um menu deslizante, escondido por padrão */
@@ -82,10 +83,12 @@
         top: 0;
         left: 0;
         height: 100vh;
+        height: 100dvh;
         z-index: 40;
         transform: translateX(-100%);
         transition: transform 0.2s ease;
         padding-top: 72px;
+        padding-bottom: 16px;
     }
 
     .sidebar-open {

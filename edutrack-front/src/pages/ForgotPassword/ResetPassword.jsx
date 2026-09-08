@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import api from '../../api/axios';
-import AuthIllustration from '../../components/AuthIllustration';
+import AuthIllustration from  '../../components/AuthIllustration'
 import '../Auth/Auth.css';
 import Logo from '../../components/Logo'
 

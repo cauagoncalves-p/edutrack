@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../../api/axios';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../components/Sidebar'
 import '../Dashboard/Dashboard.css';
 
 export default function Dashboard() {

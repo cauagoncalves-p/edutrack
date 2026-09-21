@@ -202,8 +202,8 @@ async function forgotPassword(req, res) {
                 <p style="color: #AFAFAF; font-size: 12px; line-height: 1.5; margin: 32px 0 0;">
                     Se você não solicitou isso, pode ignorar este email com segurança.
                 </p>
-                <p style="color: #AFAFAF; font-size: 11px; margin: 16px 0 0; word-break: break-all;">
-                    Ou copie e cole este link no navegador: ${resetLink}
+                <p style="color: #AFAFAF; font-size: 11px; margin: 16px 0 0;">
+                    Se o botão não funcionar, <a href="${resetLink}" style="color: #1CB0F6; font-weight: 700;">clique aqui</a>.
                 </p>
             </div>
         `

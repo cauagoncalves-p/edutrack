@@ -70,8 +70,9 @@
 }
 
 .dashboard-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 14px;
 }
 
@@ -81,6 +82,7 @@
     border-radius: 16px;
     padding: 14px 16px;
     box-sizing: border-box;
+    flex: 0 1 300px;
 }
 
 .summary-label {

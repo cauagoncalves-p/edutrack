@@ -11,6 +11,7 @@ import ResetPassword from './pages/ForgotPassword/ResetPassword';
 import TasksIndex from './pages/TasksIndex';
 import Profile from './pages/Profile';
 import Search from   './pages/Search/Search'
+import Insights from './pages/Insights/Insights';
 export default function App() {
     return (
         <AuthProvider>
@@ -66,6 +67,7 @@ export default function App() {
                     />
 
                     <Route path="/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+                    <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

@@ -56,6 +56,9 @@ export default function Sidebar() {
                     <NavLink to="/search" className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`} onClick={() => setIsOpen(false)}>
                         🔍 Buscar
                     </NavLink>
+                    <NavLink to="/insights" className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`} onClick={() => setIsOpen(false)}>
+                        🧠 Insights
+                    </NavLink>
                 </nav>
 
                 <button className="sidebar-logout" onClick={logout}>

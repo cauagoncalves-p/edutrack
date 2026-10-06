@@ -10,6 +10,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/ForgotPassword/ResetPassword';
 import TasksIndex from './pages/TasksIndex';
 import Profile from './pages/Profile';
+import Search from   './pages/Search/Search'
 export default function App() {
     return (
         <AuthProvider>
@@ -63,6 +64,8 @@ export default function App() {
                             </ProtectedRoute>
                         }
                     />
+
+                    <Route path="/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

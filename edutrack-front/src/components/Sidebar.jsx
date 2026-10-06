@@ -52,6 +52,10 @@ export default function Sidebar() {
                     >
                         👤 Perfil
                     </NavLink>
+
+                    <NavLink to="/search" className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`} onClick={() => setIsOpen(false)}>
+                        🔍 Buscar
+                    </NavLink>
                 </nav>
 
                 <button className="sidebar-logout" onClick={logout}>

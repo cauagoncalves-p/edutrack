@@ -170,4 +170,55 @@ async function deleteTask(req, res) {
     }
 }
 
-module.exports = { createTask, getTasksBySubject, updateTask, deleteTask };
+// Busca tarefas do usuário com filtros combináveis (texto, status, datas, disciplina)
+async function searchTasks(req, res) {
+    const { q, status, from, to, subject_id } = req.query;
+
+    try {
+        const pool = await poolPromise;
+        const request = pool.request().input('userId', sql.Int, req.userId);
+
+        let query = `
+            SELECT t.*, s.name AS subject_name
+            FROM academic_tasks t
+            INNER JOIN subjects s ON s.id = t.subject_id
+            WHERE s.user_id = @userId
+        `;
+
+        if (q) {
+            request.input('q', sql.VarChar, `%${q}%`);
+            query += ` AND (t.title LIKE @q OR t.description LIKE @q)`;
+        }
+
+        if (status) {
+            request.input('status', sql.VarChar, status);
+            query += ` AND t.status = @status`;
+        }
+
+        if (from) {
+            request.input('fromDate', sql.Date, from);
+            query += ` AND t.due_date >= @fromDate`;
+        }
+
+        if (to) {
+            request.input('toDate', sql.Date, to);
+            query += ` AND t.due_date <= @toDate`;
+        }
+
+        if (subject_id) {
+            request.input('subjectId', sql.Int, subject_id);
+            query += ` AND t.subject_id = @subjectId`;
+        }
+
+        query += ` ORDER BY t.due_date ASC`;
+
+        const result = await request.query(query);
+        res.json({ tasks: result.recordset });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro ao buscar tarefas.' });
+    }
+}
+
+module.exports = { createTask, getTasksBySubject, updateTask, deleteTask, searchTasks};

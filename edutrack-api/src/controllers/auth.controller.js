@@ -266,5 +266,6 @@ async function resetPassword(req, res) {
     }
 }
 
+
 // Atualiza a exportação
 module.exports = { signup, login, forgotPassword, resetPassword };

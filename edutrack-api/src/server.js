@@ -12,6 +12,8 @@ const tasksRoutes = require('./routes/tasks.routes');
 const dashboardRoutes = require('./routes/dashboard.routes.js')
 const usersRoutes = require('./routes/users.routes');
 const insightsRoutes = require('./routes/insights.routes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 
 
 app.use(cors())
@@ -50,7 +52,7 @@ app.use('/tasks', tasksRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/users', usersRoutes);
 app.use('/insights', insightsRoutes);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Define a porta em que o servidor vai rodar — usa a variável
 // PORT do .env, ou 3000 como valor padrão caso ela não exista
 const PORT = process.env.PORT || 3000;

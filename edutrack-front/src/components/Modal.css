@@ -11,7 +11,7 @@
 }
 
 .modal-box {
-    background: #fff;
+    background: var(--surface);
     border-radius: 20px;
     padding: 24px;
     width: 100%;
@@ -31,7 +31,7 @@
 .modal-title {
     font-size: 18px;
     font-weight: 800;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0;
 }
 
@@ -40,5 +40,5 @@
     border: none;
     font-size: 18px;
     cursor: pointer;
-    color: #777;
+    color: var(--text-secondary);
 }

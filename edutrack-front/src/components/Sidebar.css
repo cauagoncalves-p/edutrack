@@ -6,8 +6,8 @@
     z-index: 30;
     width: 44px;
     height: 44px;
-    background: #fff;
-    border: 2px solid #E5E5E5;
+    background: var(--surface);
+    border: 2px solid var(--border);
     border-radius: 12px;
     font-size: 20px;
     cursor: pointer;
@@ -20,14 +20,15 @@
 .sidebar {
     width: 210px;
     min-width: 210px;
-    background: #fff;
-    border-right: 2px solid #E5E5E5;
+    background: var(--surface);
+    border-right: 2px solid var(--border);
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
     gap: 6px;
     box-sizing: border-box;
     overflow-y: auto;
+    .theme-toggle { margin-top: auto; }
 }
 
 .sidebar-logo {
@@ -51,25 +52,13 @@
     border-radius: 14px;
     font-size: 14px;
     font-weight: 600;
-    color: #777;
+    color: var(--text-secondary);
     text-decoration: none;
 }
 
 .sidebar-link-active {
-    background: #DDF4FF;
+    background: var(--blue-soft);
     color: #1899D6;
-}
-
-.sidebar-logout {
-    background: none;
-    border: 2px solid #E5E5E5;
-    border-radius: 14px;
-    padding: 10px;
-    font-weight: 700;
-    font-size: 14px;
-    color: #EA2B2B;
-    cursor: pointer;
-    margin-top: auto;
 }
 
 /* Mobile: sidebar vira um menu deslizante, escondido por padrão */
@@ -99,7 +88,7 @@
         display: block;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--overlay);
         z-index: 35;
     }
 }

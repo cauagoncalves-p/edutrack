@@ -71,7 +71,7 @@ export default function Dashboard() {
                                             </p>
                                         </div>
                                         <svg width="46" height="46" viewBox="0 0 36 36">
-                                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="#E5E5E5" strokeWidth="3" />
+                                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border)" strokeWidth="3" />
                                             <circle
                                                 cx="18" cy="18" r="15.5" fill="none"
                                                 stroke={color} strokeWidth="3"
@@ -79,7 +79,7 @@ export default function Dashboard() {
                                                 strokeLinecap="round"
                                                 transform="rotate(-90 18 18)"
                                             />
-                                            <text x="18" y="21" textAnchor="middle" fontSize="9" fill="#3C3C3C">{pct}%</text>
+                                            <text x="18" y="21" textAnchor="middle" fontSize="9" fill="var(--text)">{pct}%</text>
                                         </svg>
                                     </div>
                                 );
@@ -91,7 +91,7 @@ export default function Dashboard() {
                                 <p className="summary-label">Progresso geral</p>
                                 <div className="summary-row">
                                     <svg width="60" height="60" viewBox="0 0 36 36">
-                                        <circle cx="18" cy="18" r="15.5" fill="none" stroke="#E5E5E5" strokeWidth="4" />
+                                        <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border)" strokeWidth="4" />
                                         <circle
                                             cx="18" cy="18" r="15.5" fill="none"
                                             stroke="#58CC02" strokeWidth="4"

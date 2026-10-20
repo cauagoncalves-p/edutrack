@@ -11,7 +11,7 @@
     width: 100%;
     max-width: 900px;
     min-height: 560px;
-    border: 2px solid #E5E5E5;
+    border: 2px solid var(--border);
     border-radius: 24px;
     overflow: hidden;
     margin: 16px;
@@ -19,7 +19,7 @@
 
 .auth-illustration-side {
     flex: 1;
-    background: #F7FBFF;
+    background: var(--illustration-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,7 +67,7 @@
 
 .auth-subtitle {
     font-size: 14px;
-    color: #777;
+    color: var(--text-secondary);
     margin: 0 0 24px;
 }
 
@@ -80,7 +80,7 @@
 .auth-input {
     height: 48px;
     padding: 0 14px;
-    border: 2px solid #E5E5E5;
+    border: 2px solid var(--border);
     border-radius: 12px;
     font-size: 16px;
     outline: none;
@@ -137,7 +137,7 @@
 
 .auth-footer-text {
     font-size: 13px;
-    color: #777;
+    color: var(--text-secondary);
     margin-top: 4px;
     text-align: center;
 }

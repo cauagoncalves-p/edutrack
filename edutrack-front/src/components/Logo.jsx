@@ -14,7 +14,7 @@ export default function Logo({ size = 32, showText = true }) {
             </svg>
 
             {showText && (
-                <span style={{ fontSize: size * 0.6, fontWeight: 800, color: '#3C3C3C', fontFamily: 'Nunito, sans-serif' }}>
+                <span style={{ fontSize: size * 0.6, fontWeight: 800, color: 'var(--text)', fontFamily: 'Nunito, sans-serif' }}>
                     Edu<span style={{ color: '#58CC02' }}>Track</span>
                 </span>
             )}

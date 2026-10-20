@@ -15,15 +15,15 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    border: 2px solid #E5E5E5;
+    border: 2px solid var(--border);
     border-left-width: 6px;
-    border-bottom: 4px solid #E5E5E5;
+    border-bottom: 4px solid var(--border);
     border-radius: 14px;
     padding: 14px 16px;
 }
 
 .task-row-pending {
-    border-left-color: #AFAFAF;
+    border-left-color: var(--text-muted);
 }
 
 .task-row-in_progress {
@@ -35,13 +35,13 @@
 }
 
 .task-status-select {
-    border: 2px solid #E5E5E5;
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 6px 10px;
     font-size: 13px;
     font-weight: 600;
-    color: #4B4B4B;
-    background: #fff;
+    color: var(--text);
+    background: var(--surface);
 }
 
 @media (max-width: 500px) {

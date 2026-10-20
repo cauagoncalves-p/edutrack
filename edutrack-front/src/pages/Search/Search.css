@@ -1,27 +1,305 @@
-.search-filters {
+.search-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+}
+
+.search-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 4px 0 20px;
+}
+
+.search-panel {
+    border: 2px solid var(--border);
+    border-bottom: 5px solid var(--border);
+    border-radius: 18px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-width: 500px;
+    gap: 14px;
     margin-bottom: 24px;
+    background: var(--surface);
 }
 
-.search-filters-row {
+/* Campo de busca principal */
+.search-input-wrap {
+    position: relative;
+}
+
+.search-input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 44px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    font-size: 16px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    border-color: #1CB0F6;
+}
+
+.search-input-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px;
+}
+
+/* Botões de filtro (chips) */
+.search-chips {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.search-filters-row > * {
-    flex: 1;
+.search-chip {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-bottom-width: 4px;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    cursor: pointer;
 }
 
-.search-actions {
+.search-chip-active {
+    border-color: #1CB0F6;
+    background: var(--blue-soft);
+    color: var(--text);
+}
+
+.search-chip-danger.search-chip-active {
+    border-color: #EA2B2B;
+    background: var(--danger-bg);
+}
+
+/* Disciplina + datas */
+.search-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.search-field {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
 }
 
-@media (max-width: 500px) {
-    .search-filters-row {
-        flex-direction: column;
+.search-field-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-left: 2px;
+}
+
+.search-control {
+    height: 46px;
+    padding: 0 12px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.search-control:focus {
+    border-color: #1CB0F6;
+}
+
+.search-panel-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search-clear {
+    background: none;
+    border: none;
+    color: #EA2B2B;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Resultados */
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.search-loading {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+}
+
+.result-card {
+    border: 2px solid var(--border);
+    border-left-width: 6px;
+    border-bottom-width: 4px;
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--surface);
+}
+
+.result-card-pending {
+    border-left-color: #AFAFAF;
+}
+
+.result-card-in_progress {
+    border-left-color: #1CB0F6;
+}
+
+.result-card-completed {
+    border-left-color: #58CC02;
+}
+
+.result-card-overdue {
+    background: var(--danger-bg);
+}
+
+.result-title {
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--text);
+    margin: 0;
+    word-break: break-word;
+}
+
+.result-subject {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 2px 0 0;
+}
+
+.result-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.result-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.result-badge-in_progress {
+    background: var(--blue-soft);
+    border-color: #1CB0F6;
+    color: var(--text);
+}
+
+.result-badge-completed {
+    background: var(--success-bg);
+    border-color: #58CC02;
+    color: var(--text);
+}
+
+.result-badge-overdue {
+    background: #EA2B2B;
+    border-color: #EA2B2B;
+    color: #fff;
+}
+
+.result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.result-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.result-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1CB0F6;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Estado vazio */
+.search-empty {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.search-empty-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.search-empty-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 4px;
+}
+
+@media (max-width: 700px) {
+    .search-row {
+        grid-template-columns: 1fr;
+    }
+
+    .search-results {
+        grid-template-columns: 1fr;
     }
 }

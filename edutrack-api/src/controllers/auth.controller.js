@@ -186,8 +186,8 @@ async function forgotPassword(req, res) {
         html: `
             <div style="font-family: 'Nunito', Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 24px;">
                 <h1 style="color: #58CC02; font-size: 24px; margin: 0 0 4px;">EduTrack</h1>
-                <p style="color: #3C3C3C; font-size: 16px; margin: 24px 0 8px;">Olá, ${user.name}!</p>
-                <p style="color: #777; font-size: 14px; line-height: 1.5; margin: 0 0 24px;">
+                <p style="color: var(--text); font-size: 16px; margin: 24px 0 8px;">Olá, ${user.name}!</p>
+                <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin: 0 0 24px;">
                     Recebemos uma solicitação para redefinir sua senha. Clique no botão abaixo
                     para criar uma nova senha (o link é válido por 1 hora).
                 </p>
@@ -199,10 +199,10 @@ async function forgotPassword(req, res) {
                     Redefinir minha senha
                 </a>
 
-                <p style="color: #AFAFAF; font-size: 12px; line-height: 1.5; margin: 32px 0 0;">
+                <p style="color: var(--text-muted); font-size: 12px; line-height: 1.5; margin: 32px 0 0;">
                     Se você não solicitou isso, pode ignorar este email com segurança.
                 </p>
-                <p style="color: #AFAFAF; font-size: 11px; margin: 16px 0 0;">
+                <p style="color: var(--text-muted); font-size: 11px; margin: 16px 0 0;">
                     Se o botão não funcionar, <a href="${resetLink}" style="color: #1CB0F6; font-weight: 700;">clique aqui</a>.
                 </p>
             </div>

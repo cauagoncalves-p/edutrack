@@ -32,8 +32,8 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    border: 2px solid #E5E5E5;
-    border-bottom: 4px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 4px solid var(--border);
     border-radius: 14px;
     padding: 14px 16px;
 }
@@ -41,13 +41,13 @@
 .subject-row-name {
     font-weight: 700;
     font-size: 15px;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0 0 2px;
 }
 
 .subject-row-meta {
     font-size: 13px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     margin: 0;
 }
 
@@ -57,18 +57,18 @@
 }
 
 .btn-secondary {
-    background: #fff;
-    border: 2px solid #E5E5E5;
+    background: var(--surface);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 6px 12px;
     font-weight: 700;
     font-size: 13px;
-    color: #4B4B4B;
+    color: var(--text);
     cursor: pointer;
 }
 
 .btn-danger {
-    background: #fff;
+    background: var(--surface);
     border: 2px solid #FFD3D3;
     border-radius: 10px;
     padding: 6px 12px;
@@ -110,7 +110,7 @@
 .field-label {
     font-size: 12px;
     font-weight: 700;
-    color: #777;
+    color: var(--text-secondary);
     margin-left: 2px;
 }
 @media (max-width: 500px) {

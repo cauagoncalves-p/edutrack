@@ -1,0 +1,11 @@
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+}

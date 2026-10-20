@@ -2,11 +2,30 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import './Profile.css';
 
+const AVATAR_COLORS = ['#58CC02', '#1CB0F6', '#FF9600', '#CE82FF', '#FF4B4B', '#FFC800'];
+
+const TABS = [
+    { id: 'overview', label: 'Visão geral' },
+    { id: 'info', label: 'Dados pessoais' },
+    { id: 'password', label: 'Senha' },
+    { id: 'preferences', label: 'Preferências' }
+];
+
 export default function Profile() {
-    const { user, login } = useAuth();
-    const [activeTab, setActiveTab] = useState('info'); // 'info' | 'password'
+    const { login, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
+
+    const [activeTab, setActiveTab] = useState('overview');
+    const [createdAt, setCreatedAt] = useState(null);
+    const [stats, setStats] = useState(null);
+
+    // A cor do avatar fica só no navegador (não precisa de backend)
+    const [avatarColor, setAvatarColor] = useState(
+        () => localStorage.getItem('avatarColor') || AVATAR_COLORS[0]
+    );
 
     const [profileForm, setProfileForm] = useState({ name: '', email: '' });
     const [profileError, setProfileError] = useState('');
@@ -22,13 +41,35 @@ export default function Profile() {
         async function fetchProfile() {
             try {
                 const response = await api.get('/users/me');
-                setProfileForm({ name: response.data.user.name, email: response.data.user.email });
+                const u = response.data.user;
+                setProfileForm({ name: u.name, email: u.email });
+                setCreatedAt(u.created_at);
             } catch (err) {
                 setProfileError('Erro ao carregar perfil.');
             }
         }
+
+        async function fetchStats() {
+            try {
+                const response = await api.get('/dashboard');
+                setStats(response.data.summary);
+            } catch (err) {
+                setStats(null);
+            }
+        }
+
         fetchProfile();
+        fetchStats();
     }, []);
+
+    function chooseAvatarColor(color) {
+        setAvatarColor(color);
+        localStorage.setItem('avatarColor', color);
+    }
+
+    function chooseTheme(target) {
+        if (theme !== target) toggleTheme();
+    }
 
     async function handleProfileSubmit(e) {
         e.preventDefault();
@@ -39,8 +80,7 @@ export default function Profile() {
         try {
             const response = await api.put('/users/me', profileForm);
             setProfileSuccess('Perfil atualizado com sucesso!');
-            const token = localStorage.getItem('token');
-            login(response.data.user, token);
+            login(response.data.user, localStorage.getItem('token'));
         } catch (err) {
             setProfileError(err.response?.data?.error || 'Erro ao atualizar perfil.');
         } finally {
@@ -75,6 +115,16 @@ export default function Profile() {
 
     const initial = profileForm.name ? profileForm.name.charAt(0).toUpperCase() : '?';
 
+    const memberSince = createdAt
+        ? new Date(createdAt).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+        : '';
+
+    // SUM() no SQL devolve NULL quando não há tarefas, por isso o "|| 0"
+    const totalTasks = stats?.total_tasks || 0;
+    const completedTasks = stats?.completed_tasks || 0;
+    const openTasks = (stats?.pending_tasks || 0) + (stats?.in_progress_tasks || 0);
+    const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
     return (
         <div className="dashboard-layout">
             <Sidebar />
@@ -82,27 +132,71 @@ export default function Profile() {
             <main className="dashboard-content">
                 <div className="profile-card">
                     <div className="profile-header">
-                        <div className="profile-avatar">{initial}</div>
+                        <div className="profile-avatar" style={{ background: avatarColor }}>
+                            {initial}
+                        </div>
                         <div>
                             <p className="profile-name">{profileForm.name || 'Carregando...'}</p>
                             <p className="profile-email">{profileForm.email}</p>
+                            {memberSince && <p className="profile-since">Membro desde {memberSince}</p>}
                         </div>
                     </div>
 
                     <div className="profile-tabs">
-                        <button
-                            className={`profile-tab ${activeTab === 'info' ? 'profile-tab-active' : ''}`}
-                            onClick={() => setActiveTab('info')}
-                        >
-                            Dados pessoais
-                        </button>
-                        <button
-                            className={`profile-tab ${activeTab === 'password' ? 'profile-tab-active' : ''}`}
-                            onClick={() => setActiveTab('password')}
-                        >
-                            Senha
-                        </button>
+                        {TABS.map((tab) => (
+                            <button
+                                key={tab.id}
+                                className={`profile-tab ${activeTab === tab.id ? 'profile-tab-active' : ''}`}
+                                onClick={() => setActiveTab(tab.id)}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
                     </div>
+
+                    {activeTab === 'overview' && (
+                        <div>
+                            {!stats && <p className="dashboard-empty">Carregando estatísticas...</p>}
+
+                            {stats && (
+                                <>
+                                    <div className="profile-stats">
+                                        <div className="profile-stat">
+                                            <p className="profile-stat-value">{stats.total_subjects || 0}</p>
+                                            <p className="profile-stat-label">Disciplinas</p>
+                                        </div>
+                                        <div className="profile-stat">
+                                            <p className="profile-stat-value">{totalTasks}</p>
+                                            <p className="profile-stat-label">Tarefas</p>
+                                        </div>
+                                        <div className="profile-stat profile-stat-success">
+                                            <p className="profile-stat-value">{completedTasks}</p>
+                                            <p className="profile-stat-label">Concluídas</p>
+                                        </div>
+                                        <div className="profile-stat profile-stat-warning">
+                                            <p className="profile-stat-value">{openTasks}</p>
+                                            <p className="profile-stat-label">Pendentes</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="profile-rate">
+                                        <div className="profile-rate-header">
+                                            <span>Taxa de conclusão</span>
+                                            <strong>{completionRate}%</strong>
+                                        </div>
+                                        <div className="profile-rate-track">
+                                            <div className="profile-rate-fill" style={{ width: `${completionRate}%` }} />
+                                        </div>
+                                        <p className="profile-rate-note">
+                                            {totalTasks === 0
+                                                ? 'Cadastre tarefas para acompanhar seu progresso.'
+                                                : `${completedTasks} de ${totalTasks} tarefas concluídas.`}
+                                        </p>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
 
                     {activeTab === 'info' && (
                         <form onSubmit={handleProfileSubmit} className="subject-form">
@@ -171,6 +265,48 @@ export default function Profile() {
                                 {savingPassword ? 'Salvando...' : 'Alterar senha'}
                             </button>
                         </form>
+                    )}
+
+                    {activeTab === 'preferences' && (
+                        <div className="profile-prefs">
+                            <div className="profile-pref-block">
+                                <p className="profile-pref-title">Tema</p>
+                                <div className="profile-theme-options">
+                                    <button
+                                        className={`profile-theme-btn ${theme === 'light' ? 'profile-theme-btn-active' : ''}`}
+                                        onClick={() => chooseTheme('light')}
+                                    >
+                                        ☀️ Claro
+                                    </button>
+                                    <button
+                                        className={`profile-theme-btn ${theme === 'dark' ? 'profile-theme-btn-active' : ''}`}
+                                        onClick={() => chooseTheme('dark')}
+                                    >
+                                        🌙 Escuro
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="profile-pref-block">
+                                <p className="profile-pref-title">Cor do avatar</p>
+                                <div className="profile-colors">
+                                    {AVATAR_COLORS.map((color) => (
+                                        <button
+                                            key={color}
+                                            aria-label={`Cor ${color}`}
+                                            className={`profile-color ${avatarColor === color ? 'profile-color-active' : ''}`}
+                                            style={{ background: color }}
+                                            onClick={() => chooseAvatarColor(color)}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="profile-pref-block">
+                                <p className="profile-pref-title">Conta</p>
+                                <button className="btn-danger" onClick={logout}>Sair da conta</button>
+                            </div>
+                        </div>
                     )}
                 </div>
             </main>

@@ -23,7 +23,7 @@
 .dashboard-greeting {
     font-size: 20px;
     font-weight: 800;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .dashboard-empty {
-    color: #777;
+    color: var(--text-secondary);
     font-size: 15px;
 }
 
@@ -45,8 +45,8 @@
 }
 
 .subject-card {
-    border: 2px solid #E5E5E5;
-    border-bottom: 5px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 5px solid var(--border);
     border-radius: 16px;
     padding: 14px 16px;
     display: flex;
@@ -59,13 +59,13 @@
 .subject-name {
     font-weight: 700;
     font-size: 15px;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0 0 4px;
 }
 
 .subject-meta {
     font-size: 12px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     margin: 0;
 }
 
@@ -77,8 +77,8 @@
 }
 
 .summary-card {
-    border: 2px solid #E5E5E5;
-    border-bottom: 5px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 5px solid var(--border);
     border-radius: 16px;
     padding: 14px 16px;
     box-sizing: border-box;
@@ -87,7 +87,7 @@
 
 .summary-label {
     font-size: 13px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     font-weight: 600;
     margin: 0 0 10px;
 }
@@ -101,7 +101,7 @@
 .summary-value {
     font-size: 24px;
     font-weight: 800;
-    color: #3C3C3C;
+    color: var(--text);
 }
 
 /* Carga horária — lista de barras horizontais com legenda */
@@ -120,7 +120,7 @@
 
 .workload-name {
     font-size: 12px;
-    color: #4B4B4B;
+    color: var(--text);
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
@@ -129,7 +129,7 @@
 
 .workload-track {
     height: 10px;
-    background: #F0F0F0;
+    background: var(--track);
     border-radius: 6px;
     overflow: hidden;
 }
@@ -142,7 +142,7 @@
 .workload-hours {
     font-size: 12px;
     font-weight: 700;
-    color: #777;
+    color: var(--text-secondary);
     text-align: right;
 }
 
@@ -162,8 +162,8 @@
 }
 
 .stat-card {
-    border: 2px solid #E5E5E5;
-    border-bottom: 4px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 4px solid var(--border);
     border-radius: 14px;
     padding: 14px;
     text-align: center;
@@ -171,32 +171,32 @@
 
 .stat-card-success {
     border-color: #C5EBA6;
-    background: #F3FCEC;
+    background: var(--success-bg);
 }
 
 .stat-card-warning {
     border-color: #FFE29E;
-    background: #FFFAEC;
+    background: var(--warning-bg);
 }
 
 .stat-value {
     font-size: 24px;
     font-weight: 800;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0;
 }
 
 .stat-label {
     font-size: 12px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     margin: 4px 0 0;
     font-weight: 600;
 }
 
 /* Próximas tarefas */
 .upcoming-section {
-    border: 2px solid #E5E5E5;
-    border-bottom: 5px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 5px solid var(--border);
     border-radius: 16px;
     padding: 16px;
     margin-top: 20px;
@@ -209,7 +209,7 @@
     flex-wrap: wrap;
     gap: 8px;
     padding: 10px 0;
-    border-bottom: 1px solid #F0F0F0;
+    border-bottom: 1px solid var(--track);
 }
 
 .upcoming-item:last-child {
@@ -219,20 +219,20 @@
 .upcoming-title {
     font-weight: 700;
     font-size: 14px;
-    color: #3C3C3C;
+    color: var(--text);
     margin: 0;
 }
 
 .upcoming-subject {
     font-size: 12px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     margin: 2px 0 0;
 }
 
 .upcoming-date {
     font-size: 12px;
     font-weight: 700;
-    color: #777;
+    color: var(--text-secondary);
     white-space: nowrap;
 }
 
@@ -241,7 +241,7 @@
 }
 
 .upcoming-overdue {
-    background: #FFF5F5;
+    background: var(--danger-bg);
     margin: 0 -10px;
     padding: 10px;
     border-radius: 8px;

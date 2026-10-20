@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
 import Logo from './Logo';
+import ThemeToggle from './ThemeToggle/ThemeToggle';
 export default function Sidebar() {
     // Controla se o menu está aberto no mobile (fechado por padrão)
     const [isOpen, setIsOpen] = useState(false);
@@ -60,10 +61,7 @@ export default function Sidebar() {
                         🧠 Insights
                     </NavLink>
                 </nav>
-
-                <button className="sidebar-logout" onClick={logout}>
-                    Sair
-                </button>
+                <ThemeToggle />
             </aside>
         </>
     );

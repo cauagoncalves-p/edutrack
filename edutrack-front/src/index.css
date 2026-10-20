@@ -1,4 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --border: #E5E5E5;
+    --text: #3C3C3C;
+    --text-secondary: #777777;
+    --text-muted: #AFAFAF;
+    --track: #F0F0F0;
+    --illustration-bg: #F7FBFF;
+    --blue-soft: #DDF4FF;
+    --success-bg: #F3FCEC;
+    --warning-bg: #FFFAEC;
+    --danger-bg: #FFF5F5;
+    --overlay: rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #131F24;
+    --surface: #1B2A31;
+    --border: #37464F;
+    --text: #F1F7FB;
+    --text-secondary: #A9B7BF;
+    --text-muted: #7D8D97;
+    --track: #2B3C45;
+    --illustration-bg: #16262D;
+    --blue-soft: #1B3A4B;
+    --success-bg: #1D3320;
+    --warning-bg: #3A3015;
+    --danger-bg: #3A1C1E;
+    --overlay: rgba(0, 0, 0, 0.6);
+}
 
 * {
     box-sizing: border-box;
@@ -7,6 +40,11 @@
 body {
     margin: 0;
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #fff;
-    color: #3C3C3C;
+    background: var(--bg);
+    color: var(--text);
+}
+
+input, select, textarea {
+    background: var(--surface);
+    color: var(--text);
 }

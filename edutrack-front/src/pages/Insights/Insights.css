@@ -1,6 +1,6 @@
 .insights-overall {
-    border: 2px solid #E5E5E5;
-    border-bottom: 5px solid #E5E5E5;
+    border: 2px solid var(--border);
+    border-bottom: 5px solid var(--border);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 24px;
@@ -16,7 +16,7 @@
 
 .insights-overall-note {
     font-size: 12px;
-    color: #AFAFAF;
+    color: var(--text-muted);
     margin: 0;
 }
 
@@ -26,7 +26,7 @@
 
 .recommendation-card {
     border: 2px solid #FFD3D3;
-    background: #FFF5F5;
+    background: var(--danger-bg);
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 10px;
@@ -42,7 +42,7 @@
 .recommendation-subject {
     font-weight: 700;
     font-size: 15px;
-    color: #3C3C3C;
+    color: var(--text);
 }
 
 .recommendation-badge {
@@ -56,6 +56,6 @@
 
 .recommendation-message {
     font-size: 13px;
-    color: #777;
+    color: var(--text-secondary);
     margin: 0;
 }

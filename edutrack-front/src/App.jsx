@@ -12,64 +12,68 @@ import TasksIndex from './pages/TasksIndex';
 import Profile from './pages/Profile';
 import Search from   './pages/Search/Search'
 import Insights from './pages/Insights/Insights';
+import { ThemeProvider } from './context/ThemeContext';
+
 export default function App() {
     return (
-        <AuthProvider>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <ProtectedRoute>
-                                <Dashboard />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/subjects"
-                        element={
-                            <ProtectedRoute>
-                                <Subjects />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/subjects/:subjectId/tasks"
-                        element={
-                            <ProtectedRoute>
-                                <Tasks />
-                            </ProtectedRoute>
-                        }
-                    /> {/* ← adiciona essa rota inteira */}
-                    <Route path="/" element={<Navigate to="/dashboard" />} />
+        <ThemeProvider>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <ProtectedRoute>
+                                    <Dashboard />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/subjects"
+                            element={
+                                <ProtectedRoute>
+                                    <Subjects />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/subjects/:subjectId/tasks"
+                            element={
+                                <ProtectedRoute>
+                                    <Tasks />
+                                </ProtectedRoute>
+                            }
+                        /> {/* ← adiciona essa rota inteira */}
+                        <Route path="/" element={<Navigate to="/dashboard" />} />
 
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />  
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/reset-password" element={<ResetPassword />} />  
 
-                    <Route
-                        path="/tasks"
-                        element={
-                            <ProtectedRoute>
-                                <TasksIndex />
-                            </ProtectedRoute>
-                        }
-                    />  
+                        <Route
+                            path="/tasks"
+                            element={
+                                <ProtectedRoute>
+                                    <TasksIndex />
+                                </ProtectedRoute>
+                            }
+                        />  
 
-                    <Route
-                        path="/profile"
-                        element={
-                            <ProtectedRoute>
-                                <Profile />
-                            </ProtectedRoute>
-                        }
-                    />
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProtectedRoute>
+                                    <Profile />
+                                </ProtectedRoute>
+                            }
+                        />
 
-                    <Route path="/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
-                    <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
-                </Routes>
-            </BrowserRouter>
-        </AuthProvider>
+                        <Route path="/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+                        <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
+        </ThemeProvider>
     );
 }

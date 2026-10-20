@@ -5,13 +5,13 @@ export default function SignupIllustration() {
             <desc>Uma mesa de estudos com um caderno aberto, um lápis, uma xícara e um vaso de planta.</desc>
 
             <circle cx="200" cy="140" r="100" fill="#E8F8E0" />
-            <circle cx="500" cy="440" r="110" fill="#DDF4FF" />
+            <circle cx="500" cy="440" r="110" fill="var(--blue-soft)" />
 
-            <rect x="150" y="380" width="380" height="20" rx="4" fill="#3C3C3C" />
+            <rect x="150" y="380" width="380" height="20" rx="4" fill="var(--text)" />
 
             <g transform="translate(230,260)">
-                <rect x="0" y="0" width="180" height="120" rx="8" fill="#fff" stroke="#E5E5E5" strokeWidth="3" />
-                <line x1="90" y1="6" x2="90" y2="114" stroke="#E5E5E5" strokeWidth="2" />
+                <rect x="0" y="0" width="180" height="120" rx="8" fill="#fff" stroke="var(--border)" strokeWidth="3" />
+                <line x1="90" y1="6" x2="90" y2="114" stroke="var(--border)" strokeWidth="2" />
                 <line x1="14" y1="30" x2="76" y2="30" stroke="#1CB0F6" strokeWidth="4" />
                 <line x1="14" y1="50" x2="70" y2="50" stroke="#1CB0F6" strokeWidth="4" />
                 <line x1="14" y1="70" x2="76" y2="70" stroke="#1CB0F6" strokeWidth="4" />
@@ -21,7 +21,7 @@ export default function SignupIllustration() {
 
             <g transform="translate(440,240) rotate(20)">
                 <rect x="0" y="0" width="16" height="90" fill="#FFC800" />
-                <path d="M0 90 L16 90 L8 112 Z" fill="#3C3C3C" />
+                <path d="M0 90 L16 90 L8 112 Z" fill="var(--text)" />
                 <rect x="0" y="-10" width="16" height="10" fill="#EA2B2B" />
             </g>
 

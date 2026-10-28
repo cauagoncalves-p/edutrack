@@ -14,11 +14,10 @@ const usersRoutes = require('./routes/users.routes');
 const insightsRoutes = require('./routes/insights.routes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
-
+const tutorRoutes = require('./routes/tutor.routes')
 
 app.use(cors())
 app.use(express.json())
-
 app.get('/health', async (req, res) => {
     try {
         // Espera a conexão do pool estar pronta (resolve a Promise)
@@ -53,6 +52,7 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/users', usersRoutes);
 app.use('/insights', insightsRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/tutor', tutorRoutes);
 // Define a porta em que o servidor vai rodar — usa a variável
 // PORT do .env, ou 3000 como valor padrão caso ela não exista
 const PORT = process.env.PORT || 3000;

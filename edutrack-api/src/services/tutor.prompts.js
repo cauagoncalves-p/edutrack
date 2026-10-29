@@ -39,11 +39,16 @@ function formatDate(value) {
 }
 
 function buildContext(subject, tasks) {
+      // Today's date in the student's timezone, so the AI can reason about deadlines
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
+
     const taskLines = tasks
         .slice(0, 30)
         .map((t) => `- [${t.status}] ${clean(t.title, 120)} (prazo: ${formatDate(t.due_date)})`);
-
     return [
+        '<contexto_da_materia>',
+        `Data de hoje: ${today}`,
+        `Nome: ${clean(subject.name, 150)}`,
         '<contexto_da_materia>',
         `Nome: ${clean(subject.name, 150)}`,
         `Professor: ${clean(subject.teacher, 150) || 'não informado'}`,

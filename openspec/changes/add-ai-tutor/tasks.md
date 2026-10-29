@@ -6,7 +6,7 @@
 - [x] Implement tutor endpoints (create, list, get, update mode, delete, send message)
 - [x] Implement per-minute rate limiting and daily message limit
 - [x] Document tutor endpoints in Swagger
-- [ ] Build the Tutor page (messages, input, loading state, error state, new conversation)
+- [x] Build the Tutor page (messages, input, loading state, error state, new conversation)
 - [ ] Add mode selector and subject context bar
 - [ ] Add conversation history (list, continue, delete)
 - [ ] Render markdown and formatted code blocks in AI messages

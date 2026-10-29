@@ -167,9 +167,17 @@ async function searchTasks(req, res) {
             <main className="dashboard-content">
                 <button className="back-link" onClick={() => navigate('/subjects')}>← Voltar para Disciplinas</button>
 
-                <div className="subjects-header">
+                    <div className="subjects-header">
                     <h1 className="dashboard-greeting">Tarefas</h1>
-                    <button className="btn-primary" onClick={openCreateModal}>+ Nova tarefa</button>
+                    <div className="subjects-header-actions">
+                        <button
+                            className="btn-secondary tutor-link-btn"
+                            onClick={() => navigate(`/tutor?subject=${subjectId}`)}
+                        >
+                            🎓 Estudar com o Tutor
+                        </button>
+                        <button className="btn-primary" onClick={openCreateModal}>+ Nova tarefa</button>
+                    </div>
                 </div>
 
                 {loading && <p>Carregando...</p>}

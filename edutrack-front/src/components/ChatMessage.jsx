@@ -3,6 +3,10 @@ import ReactMarkdown from 'react-markdown';
 // User messages are plain text; AI answers are rendered as Markdown.
 // react-markdown does not render raw HTML, so AI output cannot inject markup.
 export default function ChatMessage({ role, content }) {
+      if (role === 'note') {
+        return <div className="chat-note">{content}</div>;
+    }
+
     const isUser = role === 'user';
 
     return (

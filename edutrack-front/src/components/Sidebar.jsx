@@ -60,6 +60,9 @@ export default function Sidebar() {
                     <NavLink to="/insights" className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`} onClick={() => setIsOpen(false)}>
                         🧠 Insights
                     </NavLink>
+                    <NavLink to="/tutor" className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`} onClick={() => setIsOpen(false)}>
+                        🎓 Tutor
+                    </NavLink>
                 </nav>
                 <ThemeToggle />
             </aside>

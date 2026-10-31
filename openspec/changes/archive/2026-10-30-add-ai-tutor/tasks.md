@@ -9,6 +9,6 @@
 - [x] Build the Tutor page (messages, input, loading state, error state, new conversation)
 - [x] Add mode selector and subject context bar
 - [x] Add conversation history (list, continue, delete)
-- [ ] Render markdown and formatted code blocks in AI messages
-- [ ] Add Tutor link to the sidebar and "Study with Tutor" button to the tasks page
-- [ ] Verify responsiveness, theme support and conversation isolation
+- [x] Render markdown and formatted code blocks in AI messages
+- [x] Add Tutor link to the sidebar and "Study with Tutor" button to the tasks page
+- [x] Verify responsiveness, theme support and conversation isolation

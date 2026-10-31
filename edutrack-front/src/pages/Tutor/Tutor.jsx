@@ -15,6 +15,8 @@ const MODES = [
     { id: 'socratic', label: 'Socrático', icon: '💭', hint: 'Guia com perguntas, sem entregar a resposta' }
 ];
 
+const MODE_ICONS = Object.fromEntries(MODES.map((m) => [m.id, m.icon]));
+
 function getSuggestions(mode, subjectName) {
     const about = subjectName ? ` sobre ${subjectName}` : '';
 
@@ -52,6 +54,15 @@ function getSuggestions(mode, subjectName) {
           ];
 }
 
+// Today: time of day. Other days: dd/mm
+function formatWhen(value) {
+    const date = new Date(value);
+    const sameDay = date.toDateString() === new Date().toDateString();
+    return sameDay
+        ? date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        : date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+}
+
 export default function Tutor() {
     const [searchParams] = useSearchParams();
 
@@ -65,14 +76,32 @@ export default function Tutor() {
     const [sending, setSending] = useState(false);
     const [error, setError] = useState('');
 
+    const [conversations, setConversations] = useState([]);
+    const [historyLoading, setHistoryLoading] = useState(true);
+    const [historyOpen, setHistoryOpen] = useState(false); // mobile drawer
+    const [openingId, setOpeningId] = useState(null);
+
     const endRef = useRef(null);
     const textareaRef = useRef(null);
+    // Identifies the latest "open conversation" click, so an older, slower response can't overwrite it
+    const openRequestRef = useRef(0);
 
     const selectedSubject = subjects.find((s) => String(s.id) === subjectId) || null;
     const activeMode = MODES.find((m) => m.id === mode);
     const conversationStarted = conversationId !== null;
 
-    // Loads the subjects and applies the ?subject=ID deep link (from the tasks page)
+    async function loadConversations() {
+        try {
+            const res = await api.get('/tutor/conversations');
+            setConversations(res.data.conversations);
+        } catch (err) {
+            // History is optional: the chat keeps working without it
+        } finally {
+            setHistoryLoading(false);
+        }
+    }
+
+    // Loads subjects (and applies the ?subject=ID deep link) and the history
     useEffect(() => {
         api.get('/subjects')
             .then((res) => {
@@ -85,6 +114,8 @@ export default function Tutor() {
                 }
             })
             .catch(() => {});
+
+        loadConversations();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -133,6 +164,9 @@ export default function Tutor() {
                 ...prev,
                 { id: `ai-${Date.now()}`, role: 'assistant', content: response.data.message.content }
             ]);
+
+            // Refreshes the history (new conversation, new title, new order)
+            loadConversations();
         } catch (err) {
             // Removes the optimistic bubble and gives the text back so the user can retry
             setMessages((prev) => prev.slice(0, -1));
@@ -167,6 +201,7 @@ export default function Tutor() {
                 ...prev,
                 { id: `note-${Date.now()}`, role: 'note', content: `Modo alterado para ${label}` }
             ]);
+            loadConversations();
         } catch (err) {
             setError(err.response?.data?.error || 'Não foi possível trocar o modo de estudo.');
         }
@@ -175,10 +210,60 @@ export default function Tutor() {
     // Keeps the chosen subject and mode, so the next conversation starts configured
     function startNewConversation() {
         if (sending) return;
+        openRequestRef.current += 1; // cancels any conversation still being opened
+        setOpeningId(null);
         setConversationId(null);
         setMessages([]);
         setInput('');
         setError('');
+        setHistoryOpen(false);
+    }
+
+    async function openConversation(id) {
+        if (sending) return;
+        if (id === conversationId) {
+            setHistoryOpen(false);
+            return;
+        }
+
+        const requestId = ++openRequestRef.current;
+        setOpeningId(id);
+        setError('');
+
+        try {
+            const res = await api.get(`/tutor/conversations/${id}`);
+            if (requestId !== openRequestRef.current) return; // a newer click won
+
+            const { conversation, messages: saved } = res.data;
+            setConversationId(conversation.id);
+            setMode(conversation.mode);
+            // subject_id is null when the subject was deleted: it becomes a general conversation
+            setSubjectId(conversation.subject_id ? String(conversation.subject_id) : '');
+            setMessages(saved);
+            setInput('');
+            setHistoryOpen(false);
+        } catch (err) {
+            if (requestId === openRequestRef.current) {
+                setError(err.response?.data?.error || 'Não foi possível abrir a conversa.');
+            }
+        } finally {
+            if (requestId === openRequestRef.current) setOpeningId(null);
+        }
+    }
+
+    async function removeConversation(conversation) {
+        if (sending) return;
+        if (!confirm(`Excluir a conversa "${conversation.title}"? Essa ação não pode ser desfeita.`)) return;
+
+        try {
+            await api.delete(`/tutor/conversations/${conversation.id}`);
+            setConversations((prev) => prev.filter((c) => c.id !== conversation.id));
+            if (conversation.id === conversationId) {
+                startNewConversation();
+            }
+        } catch (err) {
+            setError(err.response?.data?.error || 'Não foi possível excluir a conversa.');
+        }
     }
 
     function handleKeyDown(e) {
@@ -194,143 +279,214 @@ export default function Tutor() {
             <Sidebar />
 
             <main className="dashboard-content">
-                <div className="chat-page">
-                    <div className="chat-header">
-                        <div>
-                            <h1 className="chat-title">Tutor Virtual</h1>
-                            <p className="chat-subtitle">Estude com um professor particular de IA</p>
-                        </div>
-                        <button
-                            type="button"
-                            className="chat-new-btn"
-                            onClick={startNewConversation}
-                            disabled={sending || messages.length === 0}
-                        >
-                            + Nova conversa
-                        </button>
-                    </div>
-
-                    <div className="chat-toolbar">
-                        <div className="chat-subject-field">
-                            <label className="chat-toolbar-label" htmlFor="chat-subject">Disciplina</label>
-                            <select
-                                id="chat-subject"
-                                className="chat-select"
-                                value={subjectId}
-                                onChange={(e) => setSubjectId(e.target.value)}
-                                disabled={conversationStarted || sending}
-                                title={conversationStarted ? 'Para trocar de disciplina, inicie uma nova conversa' : ''}
-                            >
-                                <option value="">Conversa geral (sem disciplina)</option>
-                                {subjects.map((s) => (
-                                    <option key={s.id} value={s.id}>{s.name}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="chat-modes" role="group" aria-label="Modo de estudo">
-                            {MODES.map((m) => (
-                                <button
-                                    key={m.id}
-                                    type="button"
-                                    className={`chat-mode ${mode === m.id ? 'chat-mode-active' : ''}`}
-                                    title={m.hint}
-                                    onClick={() => changeMode(m.id)}
-                                    disabled={sending}
-                                >
-                                    {m.icon} {m.label}
-                                </button>
-                            ))}
-                        </div>
-
-                        <p className="chat-hint">
-                            {activeMode.icon} {activeMode.hint}
-                            {selectedSubject
-                                ? ` · O tutor conhece a descrição e as tarefas de ${selectedSubject.name}`
-                                : ' · Sem disciplina: o tutor usa conhecimento geral'}
-                        </p>
-                    </div>
-
-                    <div className="chat-panel">
-                        <div className="chat-messages">
-                            {messages.length === 0 && (
-                                <div className="chat-welcome">
-                                    <div className="chat-welcome-icon">🎓</div>
-                                    <p className="chat-welcome-title">
-                                        {selectedSubject ? `Vamos estudar ${selectedSubject.name}?` : 'Olá! Eu sou o seu Tutor Virtual'}
-                                    </p>
-                                    <p className="chat-welcome-text">
-                                        Pergunte o que quiser, ou comece por uma das sugestões abaixo.
-                                    </p>
-                                    <div className="chat-suggestions">
-                                        {getSuggestions(mode, selectedSubject?.name).map((text) => (
-                                            <button
-                                                key={text}
-                                                type="button"
-                                                className="chat-suggestion"
-                                                onClick={() => sendMessage(text)}
-                                            >
-                                                {text}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {messages.map((m) => (
-                                <ChatMessage key={m.id} role={m.role} content={m.content} />
-                            ))}
-
-                            {sending && (
-                                <div className="chat-row chat-row-ai">
-                                    <div className="chat-avatar">🎓</div>
-                                    <div className="chat-bubble chat-bubble-ai">
-                                        <div className="chat-typing" aria-label="O tutor está digitando">
-                                            <span /><span /><span />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div ref={endRef} />
-                        </div>
-
-                        {error && (
-                            <div className="chat-error" role="alert">
-                                <span>{error}</span>
-                                <button type="button" onClick={() => setError('')} aria-label="Fechar aviso">✕</button>
-                            </div>
-                        )}
-
-                        {input.length > MAX_CHARS * 0.8 && (
-                            <p className="chat-counter">{input.length}/{MAX_CHARS}</p>
-                        )}
-
-                        <div className="chat-composer">
-                            <textarea
-                                ref={textareaRef}
-                                className="chat-input"
-                                rows={1}
-                                placeholder="Digite sua pergunta..."
-                                aria-label="Mensagem para o tutor"
-                                value={input}
-                                maxLength={MAX_CHARS}
-                                disabled={sending}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                            />
+                <div className="chat-shell">
+                    {/* History: persistent column on desktop, drawer on mobile */}
+                    <aside className={`chat-history ${historyOpen ? 'chat-history-visible' : ''}`}>
+                        <div className="chat-history-header">
+                            <p className="chat-history-title">Histórico</p>
                             <button
                                 type="button"
-                                className="chat-send"
-                                onClick={() => sendMessage(input)}
-                                disabled={sending || !input.trim()}
+                                className="chat-history-close"
+                                onClick={() => setHistoryOpen(false)}
+                                aria-label="Fechar histórico"
                             >
-                                Enviar
+                                ✕
                             </button>
                         </div>
-                    </div>
 
-                    <p className="chat-disclaimer">O tutor pode cometer erros. Confira informações importantes.</p>
+                        <div className="chat-history-list">
+                            {historyLoading && <p className="chat-history-empty">Carregando...</p>}
+
+                            {!historyLoading && conversations.length === 0 && (
+                                <p className="chat-history-empty">
+                                    Nenhuma conversa ainda. Faça uma pergunta para começar.
+                                </p>
+                            )}
+
+                            {conversations.map((c) => (
+                                <div
+                                    key={c.id}
+                                    className={`chat-history-item ${c.id === conversationId ? 'chat-history-item-active' : ''}`}
+                                >
+                                    <button
+                                        type="button"
+                                        className="chat-history-select"
+                                        onClick={() => openConversation(c.id)}
+                                        disabled={openingId !== null || sending}
+                                    >
+                                        <span className="chat-history-item-title">{c.title}</span>
+                                        <span className="chat-history-item-meta">
+                                            {MODE_ICONS[c.mode]} {c.subject_name || 'Geral'} · {formatWhen(c.updated_at)}
+                                        </span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="chat-history-delete"
+                                        onClick={() => removeConversation(c)}
+                                        disabled={sending}
+                                        aria-label={`Excluir conversa ${c.title}`}
+                                        title="Excluir conversa"
+                                    >
+                                        🗑
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </aside>
+
+                    {historyOpen && (
+                        <div className="chat-history-overlay" onClick={() => setHistoryOpen(false)} />
+                    )}
+
+                    <div className="chat-page">
+                        <div className="chat-header">
+                            <div>
+                                <h1 className="chat-title">Tutor Virtual</h1>
+                                <p className="chat-subtitle">Estude com um professor particular de IA</p>
+                            </div>
+                            <div className="chat-header-actions">
+                                <button
+                                    type="button"
+                                    className="chat-new-btn chat-history-toggle"
+                                    onClick={() => setHistoryOpen(true)}
+                                >
+                                    🕘 Histórico
+                                </button>
+                                <button
+                                    type="button"
+                                    className="chat-new-btn"
+                                    onClick={startNewConversation}
+                                    disabled={sending || messages.length === 0}
+                                >
+                                    + Nova conversa
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="chat-toolbar">
+                            <div className="chat-subject-field">
+                                <label className="chat-toolbar-label" htmlFor="chat-subject">Disciplina</label>
+                                <select
+                                    id="chat-subject"
+                                    className="chat-select"
+                                    value={subjectId}
+                                    onChange={(e) => setSubjectId(e.target.value)}
+                                    disabled={conversationStarted || sending}
+                                    title={conversationStarted ? 'Para trocar de disciplina, inicie uma nova conversa' : ''}
+                                >
+                                    <option value="">Conversa geral (sem disciplina)</option>
+                                    {subjects.map((s) => (
+                                        <option key={s.id} value={s.id}>{s.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="chat-modes" role="group" aria-label="Modo de estudo">
+                                {MODES.map((m) => (
+                                    <button
+                                        key={m.id}
+                                        type="button"
+                                        className={`chat-mode ${mode === m.id ? 'chat-mode-active' : ''}`}
+                                        title={m.hint}
+                                        onClick={() => changeMode(m.id)}
+                                        disabled={sending}
+                                    >
+                                        {m.icon} {m.label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <p className="chat-hint">
+                                {activeMode.icon} {activeMode.hint}
+                                {selectedSubject
+                                    ? ` · O tutor conhece a descrição e as tarefas de ${selectedSubject.name}`
+                                    : ' · Sem disciplina: o tutor usa conhecimento geral'}
+                            </p>
+                        </div>
+
+                        <div className="chat-panel">
+                            <div className="chat-messages">
+                                {openingId !== null && <p className="chat-loading">Abrindo conversa...</p>}
+
+                                {openingId === null && messages.length === 0 && (
+                                    <div className="chat-welcome">
+                                        <div className="chat-welcome-icon">🎓</div>
+                                        <p className="chat-welcome-title">
+                                            {selectedSubject ? `Vamos estudar ${selectedSubject.name}?` : 'Olá! Eu sou o seu Tutor Virtual'}
+                                        </p>
+                                        <p className="chat-welcome-text">
+                                            Pergunte o que quiser, ou comece por uma das sugestões abaixo.
+                                        </p>
+                                        <div className="chat-suggestions">
+                                            {getSuggestions(mode, selectedSubject?.name).map((text) => (
+                                                <button
+                                                    key={text}
+                                                    type="button"
+                                                    className="chat-suggestion"
+                                                    onClick={() => sendMessage(text)}
+                                                >
+                                                    {text}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {messages.map((m) => (
+                                    <ChatMessage key={m.id} role={m.role} content={m.content} />
+                                ))}
+
+                                {sending && (
+                                    <div className="chat-row chat-row-ai">
+                                        <div className="chat-avatar">🎓</div>
+                                        <div className="chat-bubble chat-bubble-ai">
+                                            <div className="chat-typing" aria-label="O tutor está digitando">
+                                                <span /><span /><span />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div ref={endRef} />
+                            </div>
+
+                            {error && (
+                                <div className="chat-error" role="alert">
+                                    <span>{error}</span>
+                                    <button type="button" onClick={() => setError('')} aria-label="Fechar aviso">✕</button>
+                                </div>
+                            )}
+
+                            {input.length > MAX_CHARS * 0.8 && (
+                                <p className="chat-counter">{input.length}/{MAX_CHARS}</p>
+                            )}
+
+                            <div className="chat-composer">
+                                <textarea
+                                    ref={textareaRef}
+                                    className="chat-input"
+                                    rows={1}
+                                    placeholder="Digite sua pergunta..."
+                                    aria-label="Mensagem para o tutor"
+                                    value={input}
+                                    maxLength={MAX_CHARS}
+                                    disabled={sending}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                />
+                                <button
+                                    type="button"
+                                    className="chat-send"
+                                    onClick={() => sendMessage(input)}
+                                    disabled={sending || !input.trim()}
+                                >
+                                    Enviar
+                                </button>
+                            </div>
+                        </div>
+
+                        <p className="chat-disclaimer">O tutor pode cometer erros. Confira informações importantes.</p>
+                    </div>
                 </div>
             </main>
         </div>

@@ -1,10 +1,19 @@
-.chat-page {
+/* ===== Layout: history column + chat ===== */
+.chat-shell {
     display: flex;
-    flex-direction: column;
+    gap: 16px;
     height: calc(100vh - 48px);
     height: calc(100dvh - 48px);
-    max-width: 900px;
+    max-width: 1180px;
     margin: 0 auto;
+}
+
+.chat-page {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-header {
@@ -29,6 +38,12 @@
     margin: 4px 0 0;
 }
 
+.chat-header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 .chat-new-btn {
     background: var(--surface);
     border: 2px solid var(--border);
@@ -47,7 +62,223 @@
     cursor: not-allowed;
 }
 
-/* Panel: min-height 0 lets the messages area scroll instead of growing the page */
+/* ===== History ===== */
+.chat-history {
+    width: 260px;
+    flex: 0 0 260px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--border);
+    border-bottom-width: 5px;
+    border-radius: 18px;
+    background: var(--surface);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.chat-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 14px 8px;
+}
+
+.chat-history-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+}
+
+.chat-history-close {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.chat-history-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chat-history-empty {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 8px 6px;
+    margin: 0;
+}
+
+.chat-history-item {
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.chat-history-item-active {
+    border-color: #1CB0F6;
+    background: var(--blue-soft);
+}
+
+.chat-history-select {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: none;
+    border: none;
+    padding: 8px 10px;
+    text-align: left;
+    font-family: inherit;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.chat-history-select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.chat-history-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-history-item-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-history-delete {
+    background: none;
+    border: none;
+    padding: 0 10px;
+    font-size: 14px;
+    color: var(--text);
+    opacity: 0.55;
+    cursor: pointer;
+}
+
+.chat-history-delete:hover {
+    opacity: 1;
+}
+
+.chat-history-delete:disabled {
+    cursor: not-allowed;
+}
+
+/* Only visible on narrow screens */
+.chat-history-toggle,
+.chat-history-overlay {
+    display: none;
+}
+
+/* ===== Toolbar: subject + study modes ===== */
+.chat-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.chat-subject-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 260px;
+    min-width: 0;
+}
+
+.chat-toolbar-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-left: 2px;
+}
+
+.chat-select {
+    height: 44px;
+    padding: 0 12px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.chat-select:focus {
+    border-color: #1CB0F6;
+}
+
+.chat-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chat-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chat-mode {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-bottom-width: 4px;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.chat-mode-active {
+    border-color: #1CB0F6;
+    background: var(--blue-soft);
+    color: var(--text);
+}
+
+.chat-mode:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chat-hint {
+    flex-basis: 100%;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ===== Chat panel ===== */
+/* min-height: 0 lets the messages area scroll instead of growing the page */
 .chat-panel {
     flex: 1;
     min-height: 0;
@@ -68,6 +299,12 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+}
+
+.chat-loading {
+    margin: auto;
+    font-size: 14px;
+    color: var(--text-muted);
 }
 
 /* Welcome state */
@@ -171,7 +408,18 @@
     white-space: pre-wrap;
 }
 
-/* Markdown rendered inside AI answers */
+/* Local note shown when the study mode changes */
+.chat-note {
+    align-self: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--track);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* ===== Markdown rendered inside AI answers ===== */
 .chat-markdown > :first-child {
     margin-top: 0;
 }
@@ -223,7 +471,86 @@
     padding: 0;
 }
 
-/* Typing indicator */
+.chat-markdown a {
+    color: #1CB0F6;
+    font-weight: 700;
+}
+
+/* Code blocks: syntax colors that follow the light/dark theme */
+:root {
+    --syn-comment: #6B7C86;
+    --syn-keyword: #8E3FD1;
+    --syn-string: #2E7D00;
+    --syn-number: #C45500;
+    --syn-title: #0B7FB8;
+    --syn-builtin: #9A6200;
+}
+
+:root[data-theme="dark"] {
+    --syn-comment: #8FA3AF;
+    --syn-keyword: #CE82FF;
+    --syn-string: #7BD85A;
+    --syn-number: #FFA23A;
+    --syn-title: #5CC8F5;
+    --syn-builtin: #FFC94D;
+}
+
+.chat-markdown .hljs-comment,
+.chat-markdown .hljs-quote {
+    color: var(--syn-comment);
+    font-style: italic;
+}
+
+.chat-markdown .hljs-keyword,
+.chat-markdown .hljs-selector-tag,
+.chat-markdown .hljs-doctag,
+.chat-markdown .hljs-operator {
+    color: var(--syn-keyword);
+}
+
+.chat-markdown .hljs-string,
+.chat-markdown .hljs-regexp,
+.chat-markdown .hljs-addition {
+    color: var(--syn-string);
+}
+
+.chat-markdown .hljs-number,
+.chat-markdown .hljs-literal,
+.chat-markdown .hljs-symbol,
+.chat-markdown .hljs-bullet {
+    color: var(--syn-number);
+}
+
+.chat-markdown .hljs-title,
+.chat-markdown .hljs-section,
+.chat-markdown .hljs-name,
+.chat-markdown .hljs-attr,
+.chat-markdown .hljs-attribute {
+    color: var(--syn-title);
+}
+
+.chat-markdown .hljs-built_in,
+.chat-markdown .hljs-type,
+.chat-markdown .hljs-class,
+.chat-markdown .hljs-meta,
+.chat-markdown .hljs-variable,
+.chat-markdown .hljs-params {
+    color: var(--syn-builtin);
+}
+
+.chat-markdown .hljs-deletion {
+    color: #EA2B2B;
+}
+
+.chat-markdown .hljs-emphasis {
+    font-style: italic;
+}
+
+.chat-markdown .hljs-strong {
+    font-weight: 800;
+}
+
+/* ===== Typing indicator ===== */
 .chat-typing {
     display: flex;
     gap: 5px;
@@ -251,7 +578,7 @@
     30% { transform: translateY(-5px); opacity: 1; }
 }
 
-/* Error banner */
+/* ===== Error banner and counter ===== */
 .chat-error {
     display: flex;
     justify-content: space-between;
@@ -283,7 +610,7 @@
     padding: 0 16px 6px;
 }
 
-/* Composer */
+/* ===== Composer ===== */
 .chat-composer {
     display: flex;
     gap: 10px;
@@ -297,6 +624,7 @@
     min-width: 0;
     resize: none;
     max-height: 160px;
+    overflow-y: auto;
     border: 2px solid var(--border);
     border-radius: 14px;
     padding: 12px 14px;
@@ -339,9 +667,45 @@
     margin: 8px 0 0;
 }
 
-/* Mobile: the hamburger button adds top padding to the page */
+/* ===== Narrow screens: the history becomes a drawer from the right ===== */
+@media (max-width: 1000px) {
+    .chat-history-toggle {
+        display: inline-block;
+    }
+
+    .chat-history {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(320px, 85vw);
+        flex: none;
+        border-radius: 18px 0 0 18px;
+        z-index: 45;
+        transform: translateX(100%);
+        transition: transform 0.2s ease;
+    }
+
+    .chat-history-visible {
+        transform: translateX(0);
+    }
+
+    .chat-history-close {
+        display: block;
+    }
+
+    .chat-history-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: var(--overlay);
+        z-index: 44;
+    }
+}
+
+/* ===== Mobile: the hamburger button adds top padding to the page ===== */
 @media (max-width: 800px) {
-    .chat-page {
+    .chat-shell {
         height: calc(100vh - 88px);
         height: calc(100dvh - 88px);
     }
@@ -349,100 +713,4 @@
     .chat-bubble {
         max-width: 92%;
     }
-}
-
-/* Subject selector + study modes */
-.chat-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 12px 16px;
-    margin-bottom: 12px;
-}
-
-.chat-subject-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1 1 260px;
-    min-width: 0;
-}
-
-.chat-toolbar-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    margin-left: 2px;
-}
-
-.chat-select {
-    height: 44px;
-    padding: 0 12px;
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    font-size: 15px;
-    font-family: inherit;
-    background: var(--surface);
-    color: var(--text);
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.chat-select:focus {
-    border-color: #1CB0F6;
-}
-
-.chat-select:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.chat-modes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.chat-mode {
-    background: var(--surface);
-    border: 2px solid var(--border);
-    border-bottom-width: 4px;
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-weight: 700;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
-.chat-mode-active {
-    border-color: #1CB0F6;
-    background: var(--blue-soft);
-    color: var(--text);
-}
-
-.chat-mode:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.chat-hint {
-    flex-basis: 100%;
-    font-size: 12px;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* Local note shown when the study mode changes */
-.chat-note {
-    align-self: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    background: var(--track);
-    padding: 4px 12px;
-    border-radius: 20px;
 }

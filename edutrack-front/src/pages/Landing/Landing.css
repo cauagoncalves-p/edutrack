@@ -1,0 +1,363 @@
+/* The landing page is always light, whatever theme the app uses.
+   These variables also keep the shared Logo component readable here. */
+.landing {
+    --text: #1F2D33;
+    --bg: #FFFFFF;
+    min-height: 100vh;
+    font-family: Nunito, system-ui, sans-serif;
+    color: #1F2D33;
+    background: #FFFFFF;
+    line-height: 1.5;
+}
+
+.landing a {
+    text-decoration: none;
+}
+
+.landing a:focus-visible {
+    outline: 3px solid #1CB0F6;
+    outline-offset: 3px;
+}
+
+.lp-header,
+.lp-hero,
+.lp-container {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.lp-container {
+    padding: 0 32px;
+}
+
+/* Header */
+.lp-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 32px;
+}
+
+.lp-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.lp-nav-link {
+    color: #55656D;
+}
+
+/* Buttons */
+.lp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.lp-btn-primary {
+    background: #58CC02;
+    border-bottom: 4px solid #46A302;
+    color: #10210A;
+}
+
+.lp-btn-primary:hover {
+    background: #63D80A;
+}
+
+.lp-btn-secondary {
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-bottom-width: 4px;
+    color: #1F2D33;
+}
+
+.lp-btn-secondary:hover {
+    border-color: #1CB0F6;
+}
+
+.lp-btn-small {
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.lp-btn-large {
+    padding: 0 32px;
+    font-size: 17px;
+}
+
+/* Hero */
+.lp-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 48px;
+    padding: 40px 32px 80px;
+}
+
+.lp-hero-text {
+    flex: 1 1 420px;
+    min-width: 0;
+}
+
+.lp-hero-visual {
+    flex: 1 1 380px;
+    min-width: 0;
+}
+
+.lp-pill {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #E8F8E0;
+    color: #2E7D00;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.lp-title {
+    margin: 20px 0 16px;
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.lp-lead {
+    margin: 0 0 32px;
+    font-size: 19px;
+    color: #55656D;
+    max-width: 520px;
+}
+
+.lp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Hero preview card */
+.lp-preview {
+    background: #F7FBFF;
+    border: 2px solid #E5E5E5;
+    border-bottom: 6px solid #E5E5E5;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.lp-preview-title {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.lp-bar-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.lp-bar-row span:last-child {
+    color: #55656D;
+}
+
+.lp-bar {
+    height: 12px;
+    background: #E5E5E5;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.lp-bar-fill {
+    height: 12px;
+    border-radius: 8px;
+}
+
+.lp-bubble {
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-radius: 16px 16px 16px 4px;
+    padding: 12px 14px;
+    font-size: 14px;
+}
+
+.lp-note {
+    margin: 0;
+    font-size: 12px;
+    color: #55656D;
+}
+
+/* Sections */
+.lp-section {
+    padding: 80px 0;
+}
+
+.lp-section-light {
+    background: #F6F9FB;
+}
+
+.lp-h2 {
+    margin: 0 0 12px;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.lp-h2-spaced {
+    margin-bottom: 40px;
+}
+
+.lp-sub {
+    margin: 0 0 40px;
+    font-size: 18px;
+    color: #55656D;
+    max-width: 640px;
+}
+
+.lp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.lp-card {
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-bottom: 5px solid #E5E5E5;
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.lp-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lp-icon-green {
+    background: #E8F8E0;
+    color: #2E7D00;
+}
+
+.lp-icon-blue {
+    background: #DDF4FF;
+    color: #0B6FA0;
+}
+
+.lp-icon-orange {
+    background: #FFF1DC;
+    color: #B35A00;
+}
+
+.lp-card-title {
+    margin: 16px 0 8px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.lp-card-text {
+    margin: 0;
+    font-size: 15px;
+    color: #55656D;
+}
+
+.lp-extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lp-extra {
+    padding: 8px 16px;
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* How it works */
+.lp-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+}
+
+.lp-step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #58CC02;
+    color: #10210A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/* Final call to action */
+.lp-cta {
+    background: #131F24;
+    padding: 80px 0;
+    color: #FFFFFF;
+}
+
+.lp-cta-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+}
+
+.lp-cta-text {
+    margin: 0 0 28px;
+    font-size: 18px;
+    color: #A9B7BF;
+}
+
+.lp-footer {
+    background: #131F24;
+    border-top: 1px solid #2B3C45;
+    padding: 24px 32px;
+    color: #A9B7BF;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Phones: keep only the button in the header and tighten the spacing */
+@media (max-width: 520px) {
+    .lp-nav-link {
+        display: none;
+    }
+
+    .lp-hero {
+        padding-bottom: 56px;
+    }
+
+    .lp-section,
+    .lp-cta {
+        padding: 56px 0;
+    }
+}

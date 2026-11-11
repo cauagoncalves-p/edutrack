@@ -14,6 +14,7 @@ import Search from   './pages/Search/Search'
 import Insights from './pages/Insights/Insights';
 import { ThemeProvider } from './context/ThemeContext';
 import Tutor from './pages/Tutor/Tutor';
+import Landing from './pages/Landing/Landing';
 
 export default function App() {
     return (
@@ -21,12 +22,12 @@ export default function App() {
             <AuthProvider>
                 <BrowserRouter>
                     <Routes>
+                        <Route path="/" element={<Landing />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard /></ProtectedRoute>}/>
                         <Route path="/subjects" element={<ProtectedRoute><Subjects /></ProtectedRoute>}/>
                         <Route path="/subjects/:subjectId/tasks" element={<ProtectedRoute><Tasks /></ProtectedRoute>}/>
-                        <Route path="/" element={<Navigate to="/dashboard" />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />  
                         <Route path="/tasks" element={<ProtectedRoute><TasksIndex /></ProtectedRoute>}/>  

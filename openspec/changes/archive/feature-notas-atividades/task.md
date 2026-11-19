@@ -1,0 +1,2 @@
+- [x] Create table activity_grades
+- [x] Create API POST /activity_grades

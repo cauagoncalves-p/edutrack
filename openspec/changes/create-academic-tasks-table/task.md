@@ -1,0 +1,1 @@
+- [x] Create table `academic_tasks` in `tables/academic_tasks.xs`

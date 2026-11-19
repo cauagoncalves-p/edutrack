@@ -1,0 +1,1 @@
+- [x] Create `scripts/calculate_progress.py` with zero-division handling and JSON output

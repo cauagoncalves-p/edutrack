@@ -1,0 +1,4 @@
+- [x] Create GET `/subjects` endpoint filtered by `auth.id`
+- [x] Create POST `/subjects` endpoint binding `user_id` to `auth.id`
+- [x] Create PATCH `/subjects/{id}` endpoint with ownership check
+- [x] Create DELETE `/subjects/{id}` endpoint with ownership check

@@ -1,0 +1,2 @@
+- [x] Create `scripts/generate_report.py` to generate formatted PDF report
+- [x] Create `GET /reports/generate` XanoScript endpoint scoped to `auth.id`

@@ -1,0 +1,2 @@
+- [x] Create `scripts/hybrid_search.py` with `try/except` error handling and OR filtering logic
+- [x] Create `GET /subjects/search` XanoScript endpoint scoped to `auth.id`

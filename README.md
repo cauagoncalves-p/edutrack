@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # EduTrack AI
 
 Aplicativo de gestão acadêmica: o estudante cadastra suas disciplinas e tarefas, acompanha o progresso em um dashboard, recebe recomendações de priorização e estuda com um tutor virtual de IA.
@@ -135,6 +136,8 @@ Conecte-se ao SQL Server (`localhost,1433`, autenticação **SQL Server**, usuá
 <summary>Script completo do banco de dados</summary>
 
 ```sql
+=======
+>>>>>>> feat/landing-page
 CREATE DATABASE EduTrackDB;
 GO
 
@@ -207,6 +210,7 @@ GO
 
 CREATE USER edutrack_api FOR LOGIN edutrack_api;
 ALTER ROLE db_owner ADD MEMBER edutrack_api;
+<<<<<<< HEAD
 GO
 ```
 
@@ -402,3 +406,6 @@ O projeto não possui suíte de testes automatizados. A validação foi **manual
 ## Autor
 
 **Cauã Gonçalves Pereira** — [@cauagoncalves-p](https://github.com/cauagoncalves-p)
+=======
+GO
+>>>>>>> feat/landing-page
